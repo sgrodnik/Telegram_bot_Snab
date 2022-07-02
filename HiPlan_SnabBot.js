@@ -6,7 +6,7 @@ const fileBase = 'https://api.telegram.org/file/bot' + token + '/'
 let update
 let message
 
-const DEBUG = false
+const DEBUG = 0
 
 function doPost(e){
   try{
@@ -126,4 +126,4 @@ function now(date=0){
   return `${y}.${m}.${d} ${hh}:${mm}:${ss}`
 }
 
-function pass(){console.log(hiPlan_SnabBot_token)}
+function pass(){console.log(ssIdAndSheetNameByChatId)}
