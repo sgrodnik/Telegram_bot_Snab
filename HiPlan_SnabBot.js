@@ -86,6 +86,7 @@ function sendMessage(chatId, text){
       method: 'sendMessage',
       chat_id: String(chatId),
       text: text,
+      disable_notification: true,
       parse_mode: 'HTML'
     }
   }
