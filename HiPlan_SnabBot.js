@@ -3,17 +3,6 @@ const token = hiPlan_SnabBot_token
 const base = 'https://api.telegram.org/bot' + token + '/'
 const fileBase = 'https://api.telegram.org/file/bot' + token + '/'
 
-const INVENTAR_SKP_ssId = '1X0xd2nVQLl2dWvtFvBRjKgQAAzOISa3RO5NsivLlGoc'
-const INVENTAR_LOGOS_ssId = '1dmAlXMdiQN82IPQvpQqN409_9vnv9z9U0jYddjsiUCY'
-const ssIdAndSheetNameByChatId = {
-// chatId:       spreadSheetId         SheetName
-  '326258443':  [INVENTAR_SKP_ssId,   'debug'    ],  // SGrodnik
-  '235365345':  [INVENTAR_SKP_ssId,   'ТЕЛЕГРАМ_'],  // HiPlan
-  '-789889865': [INVENTAR_SKP_ssId,   'ТЕЛЕГРАМ_'],  // *ИНВЕНТАРЬ_ТЕСТ_СЕМА
-  '-716736316': [INVENTAR_SKP_ssId,   'ТЕЛЕГРАМ' ],  // *ИНВЕНТАРЬ СКП
-  '-789889865': [INVENTAR_LOGOS_ssId, 'ТЕЛЕГРАМ' ],  // *ИНВЕНТАРЬ ЛОГОС
-}
-
 let update
 let message
 
