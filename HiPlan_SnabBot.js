@@ -1,5 +1,5 @@
-// const wrapper = 'https://script.google.com/home/projects/1SnLHbdXwF5WkqZP43fB293YyfL0SJj-guDwcFgwK-oQnOK9ox4s2bEt6/edit'
-const token = configGetToken()
+// const wrapper = 'https://script.google.com/home/projects/1_zIYkfH6I9HyUZJ3chAoKugPzVas4h8WEl1tMbr-r7BARIbm7aCI8Ooz/edit'
+const token = hiPlan_SnabBot_token
 const base = 'https://api.telegram.org/bot' + token + '/'
 const fileBase = 'https://api.telegram.org/file/bot' + token + '/'
 
@@ -119,4 +119,4 @@ function now(date=0){
   return `${y}.${m}.${d} ${hh}:${mm}:${ss}`
 }
 
-function pass(){console.log('test')}
+function pass(){console.log(hiPlan_SnabBot_token)}
