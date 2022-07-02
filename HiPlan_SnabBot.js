@@ -74,9 +74,9 @@ function getPhotoToTable() {
   let date = toDate(message.date)
   let fileName = `photo_${date.replaceAll('.', '-').replaceAll(':', '-').replaceAll(' ', '_')}_${message.from.id}.jpg`
   file.setName(fileName)
+  tableAppend(date, file.getUrl(), message.from.id, message.chat.id)
   botMessage = 'Фото выгружено в таблицу, сейчас привяжем его к инвентарю 😉'
   editMessage(chatId, messageId, botMessage)
-  tableAppend(date, file.getUrl(), message.from.id, message.chat.id)
 }
 
 function sendMessage(chatId, text){
