@@ -14,14 +14,13 @@ const ssIdAndSheetNameByChatId = {
   '-789889865': [INVENTAR_LOGOS_ssId, 'ТЕЛЕГРАМ' ],  // *ИНВЕНТАРЬ ЛОГОС
 }
 
-let contents
+let update
 let message
-let caption
 
 function doPost(e){
   try{
-    contents = JSON.parse(e.postData.contents)
-    if(!contents){
+    update = JSON.parse(e.postData.contents)
+    if(!update){
       throw Error('No contents')
     }
     processMessage()
@@ -34,7 +33,7 @@ function doPost(e){
 }
 
 function processMessage(){
-  message = contents.message
+  message = update.message
   if(!message){return}
   if(message.photo){getPhotoToTable()}
 }
