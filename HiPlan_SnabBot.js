@@ -17,18 +17,34 @@ const ssIdAndSheetNameByChatId = {
 let update
 let message
 
+const DEBUG = false
+
 function doPost(e){
   try{
     update = JSON.parse(e.postData.contents)
     if(!update){
       throw Error('No contents')
     }
-    processMessage()
+
+    if (DEBUG){
+      debug()
+    }
+    else{
+      processMessage()
+    }
+
   }
   catch(e){
     const SGrodnikChatId = 326258443
     sendMessage(SGrodnikChatId, e)
     tableAppend(now(), 'Ошибка', e)
+  }
+}
+
+function debug(){
+  const SGrodnikChatId = 326258443
+  if(update.message && update.message.from.id === SGrodnikChatId){
+    sendMessage(SGrodnikChatId, JSON.stringify(update, null, 8))
   }
 }
 
