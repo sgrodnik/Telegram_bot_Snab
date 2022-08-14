@@ -40,12 +40,13 @@ function debug(){
 function processMessage(){
   message = update.message
   if(!message){return}
-  if(message.photo){getPhotoToTable()}
+  if(message.photo){savePhotoToTable()}
+  if(message.text){saveTextToTable()}
 }
 
-function getPhotoToTable() {
-  if(!(String(message.chat.id) in ssIdAndSheetNameByChatId)){
-    sendMessage(message.chat.id, `Ошибка: этот чат <${message.chat.id}> не зарегистрирован`)
+function savePhotoToTable() {
+  if(!(String(message.chat.id) in ssIdAndSheetNameByChatIdPhoto)){
+    sendMessage(message.chat.id, `Ошибка: этот чат ${message.chat.id} не зарегистрирован`)
     return
   }
   let photoSizeArray = message.photo
@@ -63,8 +64,8 @@ function getPhotoToTable() {
   let date = toDate(message.date)
   let fileName = `photo_${date.replaceAll('.', '-').replaceAll(':', '-').replaceAll(' ', '_')}_${message.from.id}.jpg`
   file.setName(fileName)
-  tableAppend(date, file.getUrl(), message.from.id, message.chat.id)
-  botMessage = 'Фото выгружено в таблицу, сейчас привяжем его к инвентарю 😉'
+  tableAppendPhoto(date, file.getUrl(), message.from.id, message.chat.id)
+  botMessage = 'Фото успешно выгружено в таблицу учета 😉'
   editMessage(chatId, messageId, botMessage)
 }
 
@@ -105,9 +106,9 @@ function toDate(unixTimestamp){
   return now(date=dateObject)
 }
 
-function tableAppend(){
-  let [ssId, sheetName] = ssIdAndSheetNameByChatId[String(message.chat.id)]
-  if(sheetName){
+function tableAppendPhoto() {
+  let [ssId, sheetName] = ssIdAndSheetNameByChatIdPhoto[String(message.chat.id)]
+  if (sheetName) {
     const ssApp = SpreadsheetApp.openById(ssId)
     ssApp.getSheetByName(sheetName).appendRow([].slice.call(arguments))
   }
@@ -124,6 +125,39 @@ function now(date=0){
   let mm = date.getMinutes()
   let ss = date.getSeconds()
   return `${y}.${m}.${d} ${hh}:${mm}:${ss}`
+}
+
+function saveTextToTable() {
+  if(!(String(message.chat.id) in ssIdAndSheetNameByChatIdText)){
+    // sendMessage(message.chat.id, `Ошибка: этот чат ${message.chat.id} не зарегистрирован`)
+    return
+  }
+  // let botMessage = 'Сохраняю текст, подождите...'
+  // let [chatId, messageId] = sendMessage(message.chat.id, botMessage)
+
+  let date = toDate(message.date)
+  tableAppendText(date, message.from.id, message.chat.id, message.text)
+  // botMessage = 'Текст выгружен в таблицу 😉'
+  // editMessage(chatId, messageId, botMessage)
+}
+
+function tableAppendText(){
+  const data = [[].slice.call(arguments)]
+  let [ssId, sheetName] = ssIdAndSheetNameByChatIdText[String(message.chat.id)]
+  if (sheetName){
+    setValuesUnderLastRow(ssId, sheetName, 1, data)
+  }
+}
+
+function setValuesUnderLastRow(ssId, sheetName, column, twoDimensionalArray){
+  const sheet = SpreadsheetApp.openById(ssId).getSheetByName(sheetName)
+  const curRange = sheet.getRange(sheet.getMaxRows(), column)
+  const row = curRange.getNextDataCell(SpreadsheetApp.Direction.UP).getLastRow() + 1
+  const col = curRange.getLastColumn()
+  const numRows = twoDimensionalArray.length
+  const numCols = Math.max(twoDimensionalArray.map(row => row.length))
+  const newRange = sheet.getRange(row, col, numRows, numCols)
+  newRange.setValues(twoDimensionalArray)
 }
 
 function pass(){console.log(ssIdAndSheetNameByChatId)}
